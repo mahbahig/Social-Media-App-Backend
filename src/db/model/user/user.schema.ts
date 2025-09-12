@@ -1,20 +1,8 @@
-import mongoose from "mongoose";
-import { IUser } from "../../modules/user/user.interface";
+import { Schema } from 'mongoose';
+import { UserProvider, UserGender, UserRole } from '../../../shared/enums';
+import { IUser } from '../../../shared/interfaces';
 
-export enum UserRole {
-    user = "user",
-    admin = "admin"
-};
-export enum UserGender {
-    male = "male",
-    female = "female",
-};
-export enum UserProvider {
-    system = "system",
-    google = "google",
-};
-
-const userSchema = new mongoose.Schema<IUser>({
+export const userSchema = new Schema<IUser>({
     firstName: { 
         type: String,
         required: true, 
@@ -29,14 +17,15 @@ const userSchema = new mongoose.Schema<IUser>({
     },
     password: {
         type: String,
-        required: true,
+        required: function () { return this.provider === UserProvider.local },
     },
     age: {
         type: Number,
     },
     gender: {
         type: String,
-        enum: UserGender
+        enum: UserGender,
+        default: UserGender.male
     },
     profilePicture: String,
     role: {
@@ -47,13 +36,12 @@ const userSchema = new mongoose.Schema<IUser>({
     provider: {
         type: String,
         enum: UserProvider,
-        default: UserProvider.system
+        default: UserProvider.local
     },
     isVerified: {
         type: Boolean,
         default: false
     }
-
 }, { 
     timestamps: true,
     strict: true,
@@ -74,7 +62,3 @@ userSchema.virtual("username").set(function(value) {
     }
     return `${this.firstName} ${this.lastName}`;
 });
-
-const User = mongoose.models.User || mongoose.model<IUser>('User', userSchema);
-
-export default User;

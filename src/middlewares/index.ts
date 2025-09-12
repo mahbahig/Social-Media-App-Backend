@@ -1,3 +1,4 @@
-export * from "./error.middleware";
+export * from "./error-handler.middleware";
+export * from "./not-found.middleware";
 export * from "./limiter.middleware";
 export * from "./validation.middleware";

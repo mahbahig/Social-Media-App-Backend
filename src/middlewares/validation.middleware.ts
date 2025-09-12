@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express"
 import { ZodType } from "zod"
-import { AppError } from "./error.middleware";
+import { ValidationException } from "../utils";
 
 type RequestType = keyof Request;
 type SchemaType = Partial<Record<RequestType, ZodType>>;
@@ -25,7 +25,7 @@ export const validation = (schema: SchemaType) => {
         }
         // If there are validation errors, respond with 400 and the errors
         if (validationErrors.length) {
-            throw new AppError("Validation error", 400, validationErrors);
+            throw new ValidationException("Validation error", validationErrors);
         }
         next();
     };

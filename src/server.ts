@@ -1,4 +1,4 @@
-import bootstrap from "./app.bootstrap";
+import bootstrap from "./app";
 
 const app = bootstrap();
 const PORT: string | number = process.env.PORT || 5000;

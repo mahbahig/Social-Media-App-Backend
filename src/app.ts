@@ -1,14 +1,14 @@
 import express from "express";
-import userRouter from "./modules/user/user.router";
 import { config } from "dotenv";
 import { resolve } from "path";
 import { apiLimiter, errorHandler, notFound } from "./middlewares";
 import helmet from "helmet";
-import connectDB from "./db/connectDB";
+import connectDB from "./db/connection";
+import authRouter from "./modules/auth/auth.router";
 
 const bootstrap = (): express.Application => {
     // Load environment variables from .env file
-    config({ path: resolve("./config/.env") });
+    config({ path: resolve("./config/dev.env") });
 
     const app: express.Application = express();
     app.use(express.json());
@@ -22,7 +22,7 @@ const bootstrap = (): express.Application => {
     connectDB();
 
     // Define routes for its corresponding router of each module
-    app.use("/api/users", userRouter);
+    app.use("/api/users", authRouter);
 
     app.use("{/*demo}", notFound);
     app.use(errorHandler);

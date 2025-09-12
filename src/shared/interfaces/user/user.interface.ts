@@ -1,11 +1,11 @@
 import { Types } from "mongoose";
-import { UserGender, UserProvider, UserRole } from "../db/model/user.model";
+import { UserGender, UserProvider, UserRole } from "../../enums";
 
 export interface IUser {
     _id: Types.ObjectId,
     firstName: string,
     lastName?: string,
-    username: string,
+    username?: string,
     email: string,
     password: string,
     age?: number,
@@ -16,4 +16,6 @@ export interface IUser {
     isVerified: boolean,
     createdAt: Date,
     updatedAt: Date,
+    otp?: string,
+    otpExpiration?: Date
 }

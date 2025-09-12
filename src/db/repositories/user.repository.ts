@@ -1,16 +1,17 @@
 import { HydratedDocument, Model } from "mongoose";
 import { DbRepository } from "./db.repository";
-import { AppError } from "../../middlewares";
-import { IUser } from "../../modules/user/user.interface";
+import { IUser } from "../../shared/interfaces/user/user.interface";
+import { AppError } from "../../utils";
+import User from "../model/user/user.model";
 
 export class UserRepository extends DbRepository<IUser> {
-    constructor(protected readonly model: Model<IUser>) {
-        super(model);
+    constructor() {
+        super(User);
     }
 
-    async createOneUser(data: Partial<IUser>): Promise<HydratedDocument<IUser>> {
-        const user: HydratedDocument<IUser> = await super.create(data);
-        if (!user) throw new AppError("Failed to create user", 500);
-        return user;
+    async getAllUsers(): Promise<HydratedDocument<IUser>[]> {
+        const users: HydratedDocument<IUser>[] = await this.model.find();
+        if (!users) throw new AppError("Failed to get users", 500);
+        return users;
     }
 }

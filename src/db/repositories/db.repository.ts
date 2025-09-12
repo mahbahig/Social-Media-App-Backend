@@ -1,15 +1,21 @@
-import { HydratedDocument, Model, ObjectId, ProjectionType, RootFilterQuery } from "mongoose";
+import { HydratedDocument, Model, MongooseUpdateQueryOptions, ObjectId, ProjectionType, QueryOptions, RootFilterQuery, UpdateWriteOpResult } from "mongoose";
 
-export abstract class DbRepository<TDocument> {
-    constructor(protected readonly model: Model<TDocument>) {}
+export abstract class DbRepository<T> {
+    constructor(protected readonly model: Model<T>) {}
 
-    async create (data: Partial<TDocument>): Promise<HydratedDocument<TDocument>> {
-        return this.model.create(data);
+    async create (data: Partial<T>): Promise<HydratedDocument<T>> {
+        return await this.model.create(data);
     }
-    async findOne (filter: RootFilterQuery<TDocument>, select?: ProjectionType<TDocument>): Promise<HydratedDocument<TDocument> | null> {
-        return this.model.findOne(filter).select(select || {});
+    async findOne (filter: RootFilterQuery<T>, select?: ProjectionType<T>, options?: QueryOptions<T>): Promise<HydratedDocument<T> | null> {
+        return await this.model.findOne(filter, select, options);
     }
-    async findById (id: ObjectId): Promise<HydratedDocument<TDocument> | null> {
-        return this.model.findById(id);
+    async exists (filter: RootFilterQuery<T>, select?: ProjectionType<T>, options?: QueryOptions<T>): Promise<HydratedDocument<T> | null> {
+        return await this.model.findOne(filter, select, options);
+    }
+    async findById (id: ObjectId): Promise<HydratedDocument<T> | null> {
+        return await this.model.findById(id);
+    }
+    async updateOne (filter: RootFilterQuery<T>, update: Partial<T>, options?: MongooseUpdateQueryOptions): Promise<UpdateWriteOpResult | null> {
+        return await this.model.updateOne(filter, update, options);
     }
 }
