@@ -8,7 +8,7 @@ class UserEntity {
     public gender!: UserGender | undefined;
     public role!: UserRole;
     public provider!: UserProvider;
-    public isVerified!: boolean;
+    public confirmed!: boolean;
     public createdAt!: Date;
     public updatedAt!: Date;
     public otp!: string;

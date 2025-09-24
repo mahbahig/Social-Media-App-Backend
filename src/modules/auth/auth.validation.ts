@@ -14,12 +14,15 @@ export const registerSchema = {
         path: ["confirmPassword"]
     })
 };
-export type RegisterInputSchema = z.infer<typeof registerSchema.body>;
-
 export const confirmEmailSchema = {
     body: z.object({
         email: z.string("Email is required").email("Invalid Email").trim(),
         otp: z.string("OTP is required").length(6, "OTP must be 6 characters long").trim()
     }).required()
 };
-export type ConfirmEmailSchema = z.infer<typeof confirmEmailSchema.body>;
+export const loginSchema = {
+    body: z.object({
+        email: z.string("Email is required").email("Invalid Email").trim(),
+        password: z.string("Password is required")
+    }).required()
+}

@@ -13,7 +13,7 @@ class AuthFactory {
         user.gender = registerDTO.gender;
         user.role = UserRole.user;
         user.provider = UserProvider.local;
-        user.isVerified = false;
+        user.confirmed = false;
         user.otp = GenerateOtp();
         user.otpExpiration = new Date(Date.now() + 10 * 60 * 1000);
         user.createdAt = new Date();
