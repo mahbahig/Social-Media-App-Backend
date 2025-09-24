@@ -1,3 +1,4 @@
+import { ObjectId } from "mongoose";
 import { UserGender } from "../../shared/enums";
 
 export interface RegisterDTO {
@@ -7,4 +8,18 @@ export interface RegisterDTO {
     confirmPassword: string;
     age?: number;
     gender?: UserGender;
+}
+export interface ConfirmEmailDTO {
+    email: string;
+    otp: string;
+}
+export interface LoginDTO {
+    email: string;
+    password: string;
+}
+export interface SafeUserDTO {
+    id: ObjectId;
+    username: string;
+    email: string;
+    role: string;
 }
