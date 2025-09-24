@@ -22,7 +22,7 @@ const bootstrap = (): express.Application => {
     connectDB();
 
     // Define routes for its corresponding router of each module
-    app.use("/api/users", authRouter);
+    app.use("/api/auth", authRouter);
 
     app.use("{/*demo}", notFound);
     app.use(errorHandler);
