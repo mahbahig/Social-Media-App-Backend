@@ -38,10 +38,12 @@ export const userSchema = new Schema<IUser>({
         enum: UserProvider,
         default: UserProvider.local
     },
-    isVerified: {
+    confirmed: {
         type: Boolean,
         default: false
-    }
+    },
+    otp: String,
+    otpExpiration: Date
 }, { 
     timestamps: true,
     strict: true,
