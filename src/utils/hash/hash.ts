@@ -1,4 +1,5 @@
 import { hash } from "bcrypt"
+import { devConfig } from "../../config/dev.config";
 
 /**
  * Hashes a plain text string using bcrypt.
@@ -12,6 +13,6 @@ import { hash } from "bcrypt"
  * @param {number} [params.saltRounds] - The number of salt rounds to use. Default value is environment variable SALT_ROUNDS.
  * @returns {Promise<string>} A promise that resolves to the hashed string.
  */
-export const hashValue = async ({ plainText, saltRounds = Number(process.env.SALT_ROUNDS) }: { plainText: string, saltRounds?: number }): Promise<string> => {
+export const hashValue = async ({ plainText, saltRounds = Number(devConfig.SALT_ROUNDS) }: { plainText: string, saltRounds?: number }): Promise<string> => {
     return hash(plainText, saltRounds);
 }

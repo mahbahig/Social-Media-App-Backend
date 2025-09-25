@@ -4,6 +4,7 @@ import { ConfirmEmailDTO, LoginDTO, RegisterDTO, SafeUserDTO } from "./auth.dto"
 import AuthFactory from "./auth.factory";
 import { AuthAdapter } from "./auth.adapter";
 import { IUser } from "../../shared/interfaces";
+import { devConfig } from "../../config/dev.config";
 
 class AuthService {
     private _user = new UserRepository();
@@ -76,8 +77,8 @@ class AuthService {
     };
 
     createTokens = (safeUser: SafeUserDTO) => {
-        const accessToken: string = generateToken({ payload: safeUser, key: process.env.USER_ACCESS_JWT_SECRET!, options: { expiresIn: "7d" } });
-        const refreshToken: string = generateToken({ payload: { id: safeUser.id }, key: process.env.USER_REFRESH_JWT_SECRET!, options: { expiresIn: "7d" } });
+        const accessToken: string = generateToken({ payload: safeUser, key: devConfig.USER_ACCESS_JWT_SECRET!, options: { expiresIn: "7d" } });
+        const refreshToken: string = generateToken({ payload: { id: safeUser.id }, key: devConfig.USER_REFRESH_JWT_SECRET!, options: { expiresIn: "7d" } });
         return { accessToken, refreshToken };
     };
 }

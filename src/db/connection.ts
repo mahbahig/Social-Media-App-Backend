@@ -1,8 +1,9 @@
 import chalk from 'chalk';
 import mongoose from 'mongoose';
+import { devConfig } from '../config/dev.config';
 
 const connectDB = () => {
-    mongoose.connect(process.env.MONGO_URI as string).then(() => {
+    mongoose.connect(devConfig.MONGO_URI as string).then(() => {
         console.log(chalk.bold.green('Connected to Database successfully'));
     }).catch((err) => {
         console.log(chalk.bold.red('Error connecting to Database'));

@@ -1,4 +1,5 @@
 import nodemailer, { SendMailOptions } from "nodemailer";
+import { devConfig } from "../config/dev.config";
 
 const sendEmail = async (mailOptions: SendMailOptions) => {
     const transporter = nodemailer.createTransport({
@@ -6,12 +7,12 @@ const sendEmail = async (mailOptions: SendMailOptions) => {
         port: 465,
         secure: true,
         auth: {
-            user: process.env.EMAIL,
-            pass: process.env.PASSWORD,
+            user: devConfig.EMAIL,
+            pass: devConfig.PASSWORD,
         },
     });
     const info = await transporter.sendMail({
-        from: `"Social Media App" <${process.env.EMAIL}>`,
+        from: `"Social Media App" <${devConfig.EMAIL}>`,
         ...mailOptions
     });
     console.log("Message sent:", info.messageId);
