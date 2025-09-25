@@ -1,10 +1,18 @@
 import jwt, { JwtPayload } from "jsonwebtoken";
 
 /**
- * @param token - The JWT token to verify.
- * @param key - The secret key used to verify the token. 
- * @returns The decoded token payload if the token is valid, otherwise throws an error.
+ * Verifies a JWT token using the provided secret key.
+ * 
+ * Typically used to authenticate requests by ensuring the token is valid and has not been tampered with. If the token is valid, it returns the decoded payload.
+ * If not, it throws an error.
+ * 
+ * @function verifyToken
+ * @param {Object} params
+ * @param {string} params.token - The JWT token to verify.
+ * @param {string} params.key - The secret key used to verify the token. 
+ * @returns {JwtPayload|string} The decoded token payload if verification is successful.
+ * @throws {jwt.JsonWebTokenError|jwt.TokenExpiredError} If the token is invalid or expired.
  */
-export const VerifyToken = ({ token, key }: { token: string, key: string }): JwtPayload | string => {
+export const verifyToken = ({ token, key }: { token: string, key: string }): JwtPayload | string => {
     return jwt.verify(token, key);
 };

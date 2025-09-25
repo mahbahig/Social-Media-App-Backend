@@ -1,5 +1,5 @@
 import { UserRepository } from "../../db/repositories/user.repository";
-import { BadRequestException, Compare, ConflictException, emailEventEmitter, GenerateToken, Hash, NotFoundException } from "../../utils";
+import { BadRequestException, compareHash, ConflictException, emailEventEmitter, generateToken, hashValue, NotFoundException } from "../../utils";
 import { ConfirmEmailDTO, LoginDTO, RegisterDTO, SafeUserDTO } from "./auth.dto";
 import AuthFactory from "./auth.factory";
 import { AuthAdapter } from "./auth.adapter";
@@ -22,7 +22,7 @@ class AuthService {
         emailEventEmitter.emit("confirmEmail", { to: user.email, otp: user.otp });
 
         // Hash otp before saving to database
-        user.otp = await Hash({ plainText: user.otp });
+        user.otp = await hashValue({ plainText: user.otp });
 
         // Create user and save to database
         const createdUser: Partial<IUser> = await this._user.create(user);
@@ -47,7 +47,7 @@ class AuthService {
         // Handle expired OTP
         if (user.otpExpiration && user.otpExpiration < new Date()) throw new BadRequestException("OTP has expired, please request a new one");
         // Handle invalid OTP
-        if (!(await Compare({ plainText: confirmEmailDTO.otp, cipherText: user.otp }))) throw new BadRequestException("Invalid OTP");
+        if (!(await compareHash({ plainText: confirmEmailDTO.otp, cipherText: user.otp }))) throw new BadRequestException("Invalid OTP");
 
         // Remove the otp from the confirmEmailDTO for enhanced security
         confirmEmailDTO.otp = "";
@@ -67,7 +67,7 @@ class AuthService {
         // Handle user not found
         if (!user) throw new NotFoundException("User not found");
         // Handle invalid password
-        if (!(await Compare({ plainText: loginDTO.password, cipherText: user.password }))) throw new BadRequestException("Invalid password");
+        if (!(await compareHash({ plainText: loginDTO.password, cipherText: user.password }))) throw new BadRequestException("Invalid password");
 
         // Create safe user object to create jwt token
         const safeUser: SafeUserDTO = AuthAdapter.toSafeUser(user);
@@ -76,8 +76,8 @@ class AuthService {
     };
 
     createTokens = (safeUser: SafeUserDTO) => {
-        const accessToken: string = GenerateToken({ payload: safeUser, key: process.env.USER_ACCESS_JWT_SECRET!, options: { expiresIn: "7d" } });
-        const refreshToken: string = GenerateToken({ payload: { id: safeUser.id }, key: process.env.USER_REFRESH_JWT_SECRET!, options: { expiresIn: "7d" } });
+        const accessToken: string = generateToken({ payload: safeUser, key: process.env.USER_ACCESS_JWT_SECRET!, options: { expiresIn: "7d" } });
+        const refreshToken: string = generateToken({ payload: { id: safeUser.id }, key: process.env.USER_REFRESH_JWT_SECRET!, options: { expiresIn: "7d" } });
         return { accessToken, refreshToken };
     };
 }
