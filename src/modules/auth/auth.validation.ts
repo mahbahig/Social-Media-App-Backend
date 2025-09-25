@@ -1,28 +1,29 @@
 import z from "zod";
 import { UserGender } from "../../shared/enums";
+import { ConfirmEmailDTO, LoginDTO, RegisterDTO } from "./auth.dto";
 
 export const registerSchema = {
-    body: z.object({
-        username: z.string("Name is required").min(3, "Name must be at least 3 characters long").trim(),
-        email: z.string("Email is required").email("Invalid Email").trim(),
-        gender: z.enum([UserGender.male, UserGender.female]).optional(),
-        age: z.number().min(13, "You must be at least 13 years old").max(120, "Invalid age").optional(),
-        password: z.string("Password is required").min(6, "Password must be at least 6 characters long"),
-        confirmPassword: z.string("Confirm Password is required")
+    body: z.object<RegisterDTO>({
+        username: z.string("Name is required").min(3, "Name must be at least 3 characters long").trim() as unknown as string,
+        email: z.string("Email is required").email("Invalid Email").trim() as unknown as string,
+        gender: z.enum([UserGender.male, UserGender.female]).optional() as unknown as UserGender,
+        age: z.number().min(13, "You must be at least 13 years old").max(120, "Invalid age").optional() as unknown as number,
+        password: z.string("Password is required").min(6, "Password must be at least 6 characters long") as unknown as string,
+        confirmPassword: z.string("Confirm Password is required") as unknown as string
     }).required().refine((data) => data.password === data.confirmPassword, {
         message: "Passwords do not match",
         path: ["confirmPassword"]
     })
 };
 export const confirmEmailSchema = {
-    body: z.object({
-        email: z.string("Email is required").email("Invalid Email").trim(),
-        otp: z.string("OTP is required").length(6, "OTP must be 6 characters long").trim()
+    body: z.object<ConfirmEmailDTO>({
+        email: z.string("Email is required").email("Invalid Email").trim() as unknown as string,
+        otp: z.string("OTP is required").length(6, "OTP must be 6 characters long").trim() as unknown as string
     }).required()
 };
 export const loginSchema = {
-    body: z.object({
-        email: z.string("Email is required").email("Invalid Email").trim(),
-        password: z.string("Password is required")
+    body: z.object<LoginDTO>({
+        email: z.string("Email is required").email("Invalid Email").trim() as unknown as string,
+        password: z.string("Password is required") as unknown as string
     }).required()
 }
