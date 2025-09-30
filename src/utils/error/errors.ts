@@ -28,3 +28,9 @@ export class ValidationException extends AppError {
         super(message, 422, details);
     }
 }
+
+export class ForbiddenException extends AppError {
+    constructor(message: string) {
+        super(message, 403);
+    }
+}
