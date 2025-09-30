@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 import AuthService from "./auth.service";
 import { ConfirmEmailDTO, RegisterDTO } from "./auth.dto";
 
@@ -7,9 +7,9 @@ class AuthController {
     register = async (req: Request, res: Response) => {
         const registerDTO: RegisterDTO = req.body;
 
-        const { accessToken, refreshToken } = await AuthService.register(registerDTO);
+        const accessToken = await AuthService.register(registerDTO);
 
-        res.status(200).json({ success: true, message: "User registered successfully", accessToken, refreshToken });
+        res.status(200).json({ success: true, message: "User registered successfully", accessToken });
     };
 
     /********************************* Confirm Email *********************************/
@@ -25,9 +25,9 @@ class AuthController {
     login = async (req: Request, res: Response) => {
         const loginDTO = req.body;
 
-        const { accessToken, refreshToken } = await AuthService.login(loginDTO);
+        const accessToken = await AuthService.login(loginDTO);
 
-        res.status(200).json({ success: true, message: "User logged in successfully", accessToken, refreshToken });
+        res.status(200).json({ success: true, message: "User logged in successfully", accessToken });
     };
 }
 

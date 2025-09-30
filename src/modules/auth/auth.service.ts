@@ -31,7 +31,7 @@ class AuthService {
         // Create safe user object to create jwt token
         const safeUser: SafeUserDTO = AuthAdapter.toSafeUser(createdUser);
 
-        return AuthProvider.createTokens(safeUser);
+        return AuthProvider.createToken(safeUser);
     };
 
     /********************************* Confirm Email *********************************/
@@ -58,7 +58,7 @@ class AuthService {
         // Create safe user object to create jwt token
         const safeUser: SafeUserDTO = AuthAdapter.toSafeUser(user);
 
-        return AuthProvider.createTokens(safeUser);
+        return AuthProvider.createToken(safeUser);
     };
 }
 

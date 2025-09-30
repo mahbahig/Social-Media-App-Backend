@@ -1,7 +1,5 @@
-import { HydratedDocument } from "mongoose";
 import { devConfig } from "../../config/dev.config";
 import { UserRepository } from "../../db/repositories/user.repository";
-import { IUser } from "../../shared/interfaces";
 import { BadRequestException, compareHash, generateToken, NotFoundException } from "../../utils";
 import { SafeUserDTO } from "./auth.dto";
 
@@ -36,21 +34,19 @@ class AuthProvider {
     }
 
     /**
-     * Creates access and refresh tokens for a given safe user object.
+     * Creates access token for a given safe user object.
      * Generates JWT tokens using the user's details (id, name, email, role) and predefined secret keys and expiration settings.
-     * The access token contains full user information while the refresh token only contains the user ID for security.
+     * The access token contains full safe user information.
      *
      * @async
-     * @function createTokens
+     * @function createToken
      * @param {SafeUserDTO} safeUser - The user object containing safe user details (id, name, email, role)
-     * @returns {Promise<{accessToken, refreshToken}>} An object containing the generated access and refresh tokens
+     * @returns {Promise<{accessToken}>} An object containing the generated access token.
      * @returns {string} returns.accessToken - JWT access token containing full user payload, expires in 7 days
-     * @returns {string} returns.refreshToken - JWT refresh token containing only user ID, expires in 7 days
      */
-    static async createTokens(user: SafeUserDTO) {
+    static async createToken(user: SafeUserDTO) {
         const accessToken: string = generateToken({ payload: user, key: devConfig.USER_ACCESS_JWT_SECRET!, options: { expiresIn: "7d" } });
-        const refreshToken: string = generateToken({ payload: { id: user.id }, key: devConfig.USER_REFRESH_JWT_SECRET!, options: { expiresIn: "7d" } });
-        return { accessToken, refreshToken };
+        return accessToken;
     }
 }
 
