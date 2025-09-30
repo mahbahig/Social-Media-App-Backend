@@ -36,13 +36,13 @@ class AuthService {
 
     /********************************* Confirm Email *********************************/
     confirmEmail = async (confirmEmailDTO: ConfirmEmailDTO) => {
-        const user = await AuthProvider.checkOtp(confirmEmailDTO);
+        await AuthProvider.checkOtp(confirmEmailDTO);
 
         // Update user to set confirmed to true and remove otp and otpExpiration
-        await this._userRepository.updateById(user._id, {
-            $set: { confirmed: true },
-            $unset: { otp: "", otpExpiration: "" },
-        });
+        await this._userRepository.updateOne(
+            { email: confirmEmailDTO.email },
+            { $set: { confirmed: true }, $unset: { otp: "", otpExpiration: "" } },
+        );
     };
 
     /********************************* Login *********************************/

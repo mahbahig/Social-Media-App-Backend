@@ -15,7 +15,7 @@ export abstract class DbRepository<T> {
     async findById (id: ObjectId): Promise<HydratedDocument<T> | null> {
         return await this.model.findById(id);
     }
-    async updateOne (filter: RootFilterQuery<T>, update: Partial<T>, options?: MongooseUpdateQueryOptions): Promise<UpdateWriteOpResult | null> {
+    async updateOne (filter: RootFilterQuery<T>, update: UpdateQuery<T>, options?: MongooseUpdateQueryOptions): Promise<UpdateWriteOpResult | null> {
         return await this.model.updateOne(filter, update, options);
     }
     async updateById (id: ObjectId, update: UpdateQuery<T>, options?: QueryOptions): Promise<UpdateWriteOpResult | null> {

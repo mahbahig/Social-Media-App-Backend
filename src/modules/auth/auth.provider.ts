@@ -15,11 +15,11 @@ class AuthProvider {
      * @param {Object} params - Object containing email and otp
      * @param {string} params.email - User's email
      * @param {string} params.otp - One-time password to verify
-     * @returns {Promise<HydratedDocument<IUser>>} The user if OTP is valid
+     * @return {Promise<void>} Resolves if OTP is valid, otherwise throws an error
      * @throws NotFoundException if user is not found
      * @throws BadRequestException if email is already verified, OTP is missing, expired, or invalid
      */
-    static async checkOtp({ email, otp }: { email: string; otp: string }): Promise<HydratedDocument<IUser>> {
+    static async checkOtp({ email, otp }: { email: string; otp: string }): Promise<void> {
         const _userRepository = new UserRepository();
         // Get user by email
         const user = await _userRepository.findOne({ email });
@@ -33,8 +33,6 @@ class AuthProvider {
         if (user.otpExpiration && user.otpExpiration < new Date()) throw new BadRequestException("OTP has expired, please request a new one");
         // Handle invalid OTP
         if (!(await compareHash({ plainText: otp, cipherText: user.otp }))) throw new BadRequestException("Invalid OTP");
-
-        return user;
     }
 
     /**
