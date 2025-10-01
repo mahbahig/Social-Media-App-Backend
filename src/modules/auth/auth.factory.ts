@@ -16,8 +16,6 @@ class AuthFactory {
         user.confirmed = false;
         user.otp = generateOtp();
         user.otpExpiration = new Date(Date.now() + 10 * 60 * 1000);
-        user.createdAt = new Date();
-        user.updatedAt = new Date();
         return user;
     }
 }

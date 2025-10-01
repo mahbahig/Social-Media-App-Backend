@@ -9,8 +9,6 @@ class UserEntity {
     public role!: UserRole;
     public provider!: UserProvider;
     public confirmed!: boolean;
-    public createdAt!: Date;
-    public updatedAt!: Date;
     public otp!: string;
     public otpExpiration!: Date;
 }
