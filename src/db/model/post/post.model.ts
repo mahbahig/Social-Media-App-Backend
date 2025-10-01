@@ -1,4 +1,4 @@
-import { model } from "mongoose";
+import { model, models } from "mongoose";
 import { postSchema } from "./post.schema";
 
-export const Post = model("Post", postSchema);
+export const Post = models.Post || model("Post", postSchema);
