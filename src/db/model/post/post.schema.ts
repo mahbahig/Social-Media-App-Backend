@@ -17,5 +17,5 @@ export const postSchema = new Schema<IPost>({
         trim: true
     },
     attachments: [attachmentSchema],
-    likes: [reactionSchema]
+    reactions: [reactionSchema]
 }, { timestamps: true });

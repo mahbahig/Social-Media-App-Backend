@@ -7,7 +7,7 @@ export const reactionSchema = new Schema({
         ref: "User",
         required: true
     },
-    type: {
+    reaction: {
         type: Number,
         enum: PostReaction,
         default: PostReaction.like
