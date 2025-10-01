@@ -2,55 +2,60 @@ import { Schema } from 'mongoose';
 import { UserProvider, UserGender, UserRole } from '../../../shared/enums';
 import { IUser } from '../../../shared/interfaces';
 
-export const userSchema = new Schema<IUser>({
-    firstName: { 
-        type: String,
-        required: true, 
+export const userSchema = new Schema<IUser>(
+    {
+        firstName: {
+            type: String,
+            required: true,
+        },
+        lastName: {
+            type: String,
+        },
+        email: {
+            type: String,
+            required: true,
+            unique: true,
+        },
+        password: {
+            type: String,
+            required: function () {
+                return this.provider === UserProvider.local;
+            },
+        },
+        age: {
+            type: Number,
+        },
+        gender: {
+            type: Number,
+            enum: UserGender,
+            default: UserGender.male,
+        },
+        profilePicture: String,
+        role: {
+            type: Number,
+            enum: UserRole,
+            default: UserRole.user,
+        },
+        provider: {
+            type: Number,
+            enum: UserProvider,
+            default: UserProvider.local,
+        },
+        confirmed: {
+            type: Boolean,
+            default: false,
+        },
+        otp: String,
+        otpExpiration: Date,
     },
-    lastName: {
-        type: String,
+    {
+        timestamps: true,
+        strict: true,
+        id: false,
+        toJSON: { virtuals: true },
+        toObject: { virtuals: true },
     },
-    email: {
-        type: String,
-        required: true,
-        unique: true,
-    },
-    password: {
-        type: String,
-        required: function () { return this.provider === UserProvider.local },
-    },
-    age: {
-        type: Number,
-    },
-    gender: {
-        type: String,
-        enum: UserGender,
-        default: UserGender.male
-    },
-    profilePicture: String,
-    role: {
-        type: String,
-        enum: UserRole,
-        default: UserRole.user
-    },
-    provider: {
-        type: String,
-        enum: UserProvider,
-        default: UserProvider.local
-    },
-    confirmed: {
-        type: Boolean,
-        default: false
-    },
-    otp: String,
-    otpExpiration: Date
-}, { 
-    timestamps: true,
-    strict: true,
-    id: false,
-    toJSON: { virtuals: true },
-    toObject: { virtuals: true }
-});
+);
 
 userSchema.virtual("username").set(function(value) {
     const [firstName, lastName] = value.split(' ');
