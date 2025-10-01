@@ -2,7 +2,7 @@ import express from "express";
 import { apiLimiter, errorHandler, notFound } from "./middlewares";
 import helmet from "helmet";
 import connectDB from "./db/connection";
-import authRouter from "./modules/auth/auth.router";
+import { authRouter, userRouter } from "./modules";
 
 const bootstrap = (): express.Application => {
     // Load environment variables from .env file
@@ -20,6 +20,7 @@ const bootstrap = (): express.Application => {
 
     // Define routes for its corresponding router of each module
     app.use("/api/auth", authRouter);
+    app.use("/api/user", userRouter);
 
     app.use("{/*demo}", notFound);
     app.use(errorHandler);
