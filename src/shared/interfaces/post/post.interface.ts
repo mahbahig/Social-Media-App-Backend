@@ -5,7 +5,7 @@ export interface IPost {
     _id: ObjectId;
     userId: ObjectId;
     content?: string;
-    attachment?: IAttachment[];
+    attachments?: IAttachment[];
     likes: ObjectId[];
     createdAt: Date;
     updatedAt: Date;
