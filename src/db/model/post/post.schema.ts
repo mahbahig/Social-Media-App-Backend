@@ -16,6 +16,12 @@ export const postSchema = new Schema<IPost>({
         },
         trim: true
     },
-    attachments: [attachmentSchema],
-    reactions: [reactionSchema]
+    attachments: {
+        type: [attachmentSchema],
+        default: undefined
+    },
+    reactions: {
+        type: [reactionSchema],
+        default: undefined
+    }
 }, { timestamps: true });
