@@ -1,7 +1,8 @@
-import { CreatePostDTO } from './post.dto';
+import { CreatePostDTO } from "./post.dto";
 import { Request, Response } from "express";
 import PostService from "./post.service";
-import { IPost } from '../../shared/interfaces';
+import { IPost } from "../../shared/interfaces";
+import { PostReaction } from "../../shared/enums";
 
 class PostController {
     /********************************* Create Post *********************************/
@@ -9,6 +10,15 @@ class PostController {
         const createPostDTO: CreatePostDTO = req.body;
         const post: Partial<IPost> = await PostService.createPost(createPostDTO, req.user!);
         return res.status(201).json(post);
+    };
+
+    /********************************* Toggle Reaction *********************************/
+    toggleReaction = async (req: Request, res: Response) => {
+        const postId: string = req.params.postId!;
+        const userId: string = req.user!._id.toString();
+        const reactionType: PostReaction = req.body.reactionType;
+        const status = await PostService.toggleReaction(postId, userId, reactionType);
+        return res.status(200).json({ message: `Reaction ${status} successfully` });
     };
 }
 
