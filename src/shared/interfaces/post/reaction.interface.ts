@@ -1,6 +1,7 @@
+import { ObjectId } from "mongoose";
 import { PostReaction } from "../../enums";
 
 export interface IReaction {
-    userId: string;
+    userId: ObjectId;
     reaction: PostReaction;
 }
