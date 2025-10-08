@@ -18,10 +18,8 @@ export const postSchema = new Schema<IPost>({
     },
     attachments: {
         type: [attachmentSchema],
-        default: undefined
     },
     reactions: {
         type: [reactionSchema],
-        default: undefined
     }
 }, { timestamps: true });
