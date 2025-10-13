@@ -1,7 +1,6 @@
 import { Schema } from "mongoose";
 import { IPost } from "../../../shared/interfaces";
-import { reactionSchema } from "./reaction.schema";
-import { attachmentSchema } from "./attachment.schema";
+import { attachmentSchema, reactionSchema } from "../common";
 
 export const postSchema = new Schema<IPost>({
     userId: {
