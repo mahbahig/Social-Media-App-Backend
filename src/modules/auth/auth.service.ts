@@ -1,4 +1,4 @@
-import { UserRepository } from "../../db/repositories/user.repository";
+import { UserRepository } from "../../db";
 import { BadRequestException, compareHash, ConflictException, emailEventEmitter, hashValue, NotFoundException } from "../../utils";
 import { ConfirmEmailDTO, LoginDTO, RegisterDTO, SafeUserDTO } from "./auth.dto";
 import AuthFactory from "./auth.factory";

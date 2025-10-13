@@ -1,7 +1,7 @@
+import { PostRepository } from '../../db';
 import { PostReaction } from '../../shared/enums';
 import { IPost, IUser } from '../../shared/interfaces';
 import { InternalServerException, NotFoundException } from '../../utils';
-import { PostRepository } from './../../db/repositories/post.repository';
 import { CreatePostDTO } from "./post.dto";
 import PostFactory from './post.factory';
 

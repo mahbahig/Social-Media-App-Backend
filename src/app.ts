@@ -1,8 +1,8 @@
 import express from "express";
 import { apiLimiter, errorHandler, notFound } from "./middlewares";
 import helmet from "helmet";
-import connectDB from "./db/connection";
 import { authRouter, postRouter, userRouter } from "./modules";
+import { connectDB } from "./db";
 
 const bootstrap = (): express.Application => {
     // Load environment variables from .env file

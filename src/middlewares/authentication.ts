@@ -1,7 +1,7 @@
-import { UserRepository } from './../db/repositories/user.repository';
 import { NextFunction, Request, Response } from "express";
 import { BadRequestException, NotFoundException, verifyToken } from "../utils";
 import { devConfig } from "../config/dev.config";
+import { UserRepository } from "../db";
 
 export const isAuthenticated = async (req: Request, res: Response, next: NextFunction) => {
     const authorization: string = req.headers.authorization as string;

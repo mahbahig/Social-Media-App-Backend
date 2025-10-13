@@ -2,7 +2,7 @@ import chalk from 'chalk';
 import mongoose from 'mongoose';
 import { devConfig } from '../config/dev.config';
 
-const connectDB = () => {
+export const connectDB = () => {
     mongoose.connect(devConfig.MONGO_URI as string).then(() => {
         console.log(chalk.bold.green('Connected to Database successfully'));
     }).catch((err) => {
@@ -10,5 +10,3 @@ const connectDB = () => {
         console.log(chalk.red(err.message));
     });
 };
-
-export default connectDB;
