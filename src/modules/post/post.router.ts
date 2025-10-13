@@ -8,5 +8,6 @@ const router = Router();
 
 router.post("/", validation(createPostSchema), isAuthenticated, PostController.createPost);
 router.patch("/reaction/:postId", isAuthenticated, PostController.toggleReaction);
+router.get("/:postId", PostController.getPost);
 
 export default router;

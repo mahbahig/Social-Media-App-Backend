@@ -12,6 +12,13 @@ class PostController {
         return res.status(201).json(post);
     };
 
+    /********************************* Get Post *********************************/
+    getPost = async (req: Request, res: Response) => {
+        const id: string = req.params.postId!;
+        const post: IPost = await PostService.getPost(id);
+        return res.status(200).json({ post });
+    };
+
     /********************************* Toggle Reaction *********************************/
     toggleReaction = async (req: Request, res: Response) => {
         const postId: string = req.params.postId!;

@@ -1,4 +1,4 @@
-import { ObjectId, Types } from 'mongoose';
+import { Types } from "mongoose";
 import { PostRepository } from '../../db';
 import { PostReaction } from '../../shared/enums';
 import { IPost, IUser } from '../../shared/interfaces';
@@ -18,10 +18,23 @@ class PostService {
         return createdPost;
     };
 
+    /********************************* Get Post *********************************/
+    getPost = async (postId: string) => {
+        if (!Types.ObjectId.isValid(postId)) throw new NotFoundException("Invalid post id");
+
+        const post: IPost | null = await this._postRepository.findById(postId, {}, { populate: [
+            { path: "userId", select: "username firstName lastName" },
+            { path: "reactions.userId", select: "username firstName lastName" }
+        ]});
+        if (!post) throw new NotFoundException("Post not found");
+
+        return post;
+    };
+
     /********************************* Toggle Reaction *********************************/
     toggleReaction = async (postId: string, userId: string, reaction: PostReaction) => {
-        if(!Types.ObjectId.isValid(postId)) throw new NotFoundException("Invalid post id");
-        if(!Types.ObjectId.isValid(userId)) throw new NotFoundException("Invalid user id");
+        if (!Types.ObjectId.isValid(postId)) throw new NotFoundException("Invalid post id");
+        if (!Types.ObjectId.isValid(userId)) throw new NotFoundException("Invalid user id");
         if (!reaction) throw new BadRequestException("Reaction type is required");
 
         const post = await this._postRepository.exists({ _id: postId });

@@ -12,8 +12,8 @@ export abstract class DbRepository<T> {
     async exists (filter: RootFilterQuery<T>, select?: ProjectionType<T>, options?: QueryOptions<T>): Promise<HydratedDocument<T> | null> {
         return await this.model.findOne(filter, select, options);
     }
-    async findById (id: ObjectId): Promise<HydratedDocument<T> | null> {
-        return await this.model.findById(id);
+    async findById (id: string, projection: ProjectionType<T>, options: QueryOptions): Promise<HydratedDocument<T> | null> {
+        return await this.model.findById(id, projection, options);
     }
     async updateOne (filter: RootFilterQuery<T>, update: UpdateQuery<T>, options?: MongooseUpdateQueryOptions): Promise<UpdateWriteOpResult | null> {
         return await this.model.updateOne(filter, update, options);
