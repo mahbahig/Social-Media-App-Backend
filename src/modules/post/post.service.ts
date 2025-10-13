@@ -1,7 +1,8 @@
+import { ObjectId, Types } from 'mongoose';
 import { PostRepository } from '../../db';
 import { PostReaction } from '../../shared/enums';
 import { IPost, IUser } from '../../shared/interfaces';
-import { InternalServerException, NotFoundException } from '../../utils';
+import { BadRequestException, InternalServerException, NotFoundException } from '../../utils';
 import { CreatePostDTO } from "./post.dto";
 import PostFactory from './post.factory';
 
@@ -18,7 +19,11 @@ class PostService {
     };
 
     /********************************* Toggle Reaction *********************************/
-    toggleReaction = async (postId: string, userId: string, reactionType: PostReaction) => {
+    toggleReaction = async (postId: string, userId: string, reaction: PostReaction) => {
+        if(!Types.ObjectId.isValid(postId)) throw new NotFoundException("Invalid post id");
+        if(!Types.ObjectId.isValid(userId)) throw new NotFoundException("Invalid user id");
+        if (!reaction) throw new BadRequestException("Reaction type is required");
+
         const post = await this._postRepository.exists({ _id: postId });
         if (!post) throw new NotFoundException("Post not found");
 
@@ -26,21 +31,19 @@ class PostService {
         const existingUser = post.reactions.findIndex((reaction) => {
             return reaction.userId.toString() == userId;
         });
+
         if (existingUser == -1) {
             // If the user did not react before, add the reaction
-            await this._postRepository.updateOne({ _id: postId }, { $push: { reactions: { userId, reaction: reactionType } } });
+            await this._postRepository.addReaction({ postId, userId, reaction });
             return "added";
         } else {
-            if (post.reactions[existingUser]?.reaction == reactionType) {
+            if (post.reactions[existingUser]?.reaction == reaction) {
                 // If the user reacted before with the same type, remove the reaction
-                await this._postRepository.updateOne({ _id: postId }, { $pull: { reactions: { userId, reaction: reactionType } } });
+                await this._postRepository.removeReaction({ postId, userId, reaction });
                 return "removed";
             } else {
                 // If the user reacted before with a different type, update the reaction
-                await this._postRepository.updateOne(
-                    { _id: postId, "reactions.userId": userId },
-                    { $set: { "reactions.$.reaction": reactionType } }
-                );
+                await this._postRepository.updateReaction({ postId, userId, reaction });
                 return "updated";
             }
         }

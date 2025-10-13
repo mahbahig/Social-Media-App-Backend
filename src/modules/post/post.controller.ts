@@ -16,8 +16,8 @@ class PostController {
     toggleReaction = async (req: Request, res: Response) => {
         const postId: string = req.params.postId!;
         const userId: string = req.user!._id.toString();
-        const reactionType: PostReaction = req.body.reactionType;
-        const status = await PostService.toggleReaction(postId, userId, reactionType);
+        const reaction: PostReaction = req.body.reaction;
+        const status = await PostService.toggleReaction(postId, userId, reaction);
         return res.status(200).json({ message: `Reaction ${status} successfully` });
     };
 }
