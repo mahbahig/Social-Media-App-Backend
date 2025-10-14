@@ -1,6 +1,6 @@
 import { UserProvider, UserRole } from '../../shared/enums';
 import { generateOtp, hashValue } from "../../utils";
-import { RegisterDTO } from './auth.dto';
+import { RegisterDTO } from './dtos';
 import UserEntity from './user.entity';
 
 class AuthFactory {

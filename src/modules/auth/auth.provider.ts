@@ -1,7 +1,7 @@
 import { devConfig } from "../../config/dev.config";
 import { UserRepository } from "../../db";
 import { BadRequestException, compareHash, generateToken, NotFoundException } from "../../utils";
-import { SafeUserDTO } from "./auth.dto";
+import { SafeUserDTO } from "./dtos";
 
 class AuthProvider {
     /**

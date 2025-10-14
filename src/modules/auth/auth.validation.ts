@@ -1,6 +1,6 @@
 import z from "zod";
 import { UserGender } from "../../shared/enums";
-import { ConfirmEmailDTO, LoginDTO, RegisterDTO } from "./auth.dto";
+import { ConfirmEmailDTO, LoginDTO, RegisterDTO } from "./dtos";
 
 export const registerSchema = {
     body: z.object<RegisterDTO>({
