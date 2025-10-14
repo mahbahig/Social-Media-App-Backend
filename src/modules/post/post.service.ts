@@ -24,7 +24,8 @@ class PostService {
 
         const post: IPost | null = await this._postRepository.findById(postId, {}, { populate: [
             { path: "userId", select: "username firstName lastName" },
-            { path: "reactions.userId", select: "username firstName lastName" }
+            { path: "reactions.userId", select: "username firstName lastName" },
+            { path: "comments", match: { parentsId: [] } }
         ]});
         if (!post) throw new NotFoundException("Post not found");
 
