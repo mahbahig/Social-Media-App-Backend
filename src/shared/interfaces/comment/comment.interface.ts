@@ -6,6 +6,7 @@ export interface IComment {
     postId: ObjectId;
     userId: ObjectId;
     content: string;
+    parentsId: ObjectId[];
     reactions: IReaction[];
     attachments: IAttachment[];
 }
