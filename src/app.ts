@@ -1,12 +1,10 @@
 import express from "express";
 import { apiLimiter, errorHandler, notFound } from "./middlewares";
 import helmet from "helmet";
-import { authRouter, postRouter, userRouter } from "./modules";
+import { authRouter, commentRouter, postRouter, userRouter } from "./modules";
 import { connectDB } from "./db";
 
 const bootstrap = (): express.Application => {
-    // Load environment variables from .env file
-
     const app: express.Application = express();
     app.use(express.json());
 
@@ -22,8 +20,12 @@ const bootstrap = (): express.Application => {
     app.use("/api/auth", authRouter);
     app.use("/api/user", userRouter);
     app.use("/api/post", postRouter);
+    app.use("/api/comment", commentRouter);
 
+    // Handle 404 - Keep this as the last route
     app.use("{/*demo}", notFound);
+
+    // Error handling middleware - Keep this as the last piece of middleware
     app.use(errorHandler);
 
     return app;
