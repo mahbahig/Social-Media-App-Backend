@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import AuthService from "./auth.service";
-import { ConfirmEmailDTO, RegisterDTO } from "./auth.dto";
+import { ConfirmEmailDTO, LoginDTO, RegisterDTO } from "./dtos";
 
 class AuthController {
     /********************************* Register *********************************/
@@ -23,7 +23,7 @@ class AuthController {
 
     /********************************* Login *********************************/
     login = async (req: Request, res: Response) => {
-        const loginDTO = req.body;
+        const loginDTO: LoginDTO = req.body;
 
         const accessToken = await AuthService.login(loginDTO);
 
