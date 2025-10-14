@@ -1,12 +1,39 @@
+import { Types } from 'mongoose';
 import { PostRepository, CommentRepository } from "../../db";
+import { IComment, IUser } from "../../shared/interfaces";
 import CommentFactory from "./comment.factory";
+import { CreateCommentDto } from "./dtos";
+import { BadRequestException, NotFoundException } from '../../utils';
 
 class CommentService {
     private readonly _postRepository = new PostRepository();
     private readonly _commentRepository = new CommentRepository();
     private readonly _commentFactory = new CommentFactory();
 
-    
+    /********************************* Create Comment *********************************/
+    createComment = async (createCommentDto: CreateCommentDto, user: IUser, postId: string, commentId: string | undefined) => {
+        // Validate post id
+        if (!Types.ObjectId.isValid(postId)) throw new BadRequestException("Invalid post id");
+
+        // Check if post exists
+        const post = await this._postRepository.exists({ _id: postId });
+        if (!post) throw new NotFoundException("Post not found");
+
+        // Check if commentId is provided (reply to comment), if provided check if comment exists
+        let parentComment: IComment | null = null;
+        if (commentId) {
+            if (!Types.ObjectId.isValid(commentId)) throw new BadRequestException("Invalid comment id");
+            parentComment = await this._commentRepository.exists({ _id: commentId});
+            if (!parentComment) throw new NotFoundException("Parent comment not found");
+        }
+
+        // Send data to factory to create comment
+        const comment: Partial<IComment> = await this._commentFactory.createComment(createCommentDto, user, postId, parentComment);
+
+        // Send comment to repository to save it in DB
+        const createdComment = await this._commentRepository.create(comment);
+        return createdComment;
+    };
 }
 
 export default new CommentService();
