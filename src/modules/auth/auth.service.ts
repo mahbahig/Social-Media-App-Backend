@@ -7,8 +7,8 @@ import AuthProvider from "./auth.provider";
 import AuthAdapter from "./auth.adapter";
 
 class AuthService {
-    private _userRepository = new UserRepository();
-    private _authFactory = new AuthFactory();
+    private readonly _userRepository = new UserRepository();
+    private readonly _authFactory = new AuthFactory();
 
     /********************************* Register *********************************/
     register = async (registerDTO: RegisterDTO) => {
@@ -39,10 +39,7 @@ class AuthService {
         await AuthProvider.checkOtp(confirmEmailDTO);
 
         // Update user to set confirmed to true and remove otp and otpExpiration
-        await this._userRepository.updateOne(
-            { email: confirmEmailDTO.email },
-            { $set: { confirmed: true }, $unset: { otp: "", otpExpiration: "" } },
-        );
+        await this._userRepository.updateOne({ email: confirmEmailDTO.email }, { $set: { confirmed: true }, $unset: { otp: "", otpExpiration: "" } });
     };
 
     /********************************* Login *********************************/
