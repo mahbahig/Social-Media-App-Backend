@@ -1,6 +1,5 @@
 import { ObjectId } from "mongoose";
-import { IAttachment } from "./attachment.interface";
-import { IReaction } from "./reaction.interface";
+import { IAttachment, IReaction } from "../shared";
 
 export interface IPost {
     _id: ObjectId;
