@@ -5,7 +5,7 @@ export class CommentEntity {
     postId!: ObjectId;
     userId!: ObjectId;
     content!: string;
-    parentsId?: ObjectId[];
+    parentId?: ObjectId;
     reactions!: IReaction[];
     attachments?: IAttachment[];
 }

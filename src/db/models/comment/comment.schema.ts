@@ -13,7 +13,7 @@ export const commentSchema = new Schema<IComment>({
         ref: "Post",
         required: true
     },
-    parentsId: [Schema.Types.ObjectId],
+    parentId: Schema.Types.ObjectId,
     content: {
         type: String,
     },

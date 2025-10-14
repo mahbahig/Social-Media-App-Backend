@@ -9,7 +9,7 @@ class CommentFactory {
         comment.postId = postId as unknown as ObjectId;
         comment.userId = user._id;
         comment.content = createCommentDto.content;
-        comment.parentsId = parentComment ? [...parentComment.parentsId, parentComment._id] : [];
+        comment.parentId = parentComment ? parentComment._id : undefined;
         comment.reactions = [];
         return comment;
     }
