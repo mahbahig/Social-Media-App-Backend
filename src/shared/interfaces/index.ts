@@ -8,7 +8,7 @@ declare global {
     }
 }
 
-export * from "./user/index";
-export * from "./post/index";
-export * from "./comment/index";
-export * from "./shared/index";
+export * from "./user";
+export * from "./post";
+export * from "./comment";
+export * from "./shared";
