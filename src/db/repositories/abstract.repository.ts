@@ -1,6 +1,6 @@
 import { HydratedDocument, Model, MongooseUpdateQueryOptions, ObjectId, ProjectionType, QueryOptions, RootFilterQuery, UpdateQuery, UpdateWriteOpResult } from "mongoose";
 
-export abstract class DbRepository<T> {
+export abstract class AbstractRepository<T> {
     constructor(protected readonly model: Model<T>) {}
 
     async create (data: Partial<T>): Promise<HydratedDocument<T>> {

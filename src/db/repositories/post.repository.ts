@@ -2,9 +2,9 @@ import { UpdateResult } from "mongoose";
 import { PostReaction } from "../../shared/enums";
 import { IPost } from "../../shared/interfaces";
 import { Post } from "../model";
-import { DbRepository } from "./db.repository";
+import { AbstractRepository } from "./abstract.repository";
 
-export class PostRepository extends DbRepository<IPost> {
+export class PostRepository extends AbstractRepository<IPost> {
     constructor() {
         super(Post);
     }

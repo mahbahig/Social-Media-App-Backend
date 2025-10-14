@@ -1,10 +1,10 @@
 import { HydratedDocument } from "mongoose";
-import { DbRepository } from "./db.repository";
+import { AbstractRepository } from "./abstract.repository";
 import { IUser } from "../../shared/interfaces/user/user.interface";
 import { InternalServerException } from "../../utils";
 import User from "../model/user/user.model";
 
-export class UserRepository extends DbRepository<IUser> {
+export class UserRepository extends AbstractRepository<IUser> {
     constructor() {
         super(User);
     }
