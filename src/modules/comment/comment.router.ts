@@ -1,6 +1,6 @@
 import { Router } from "express";
 import CommentController from "./comment.controller";
-import { isAuthenticated } from "../../middlewares/authentication";
+import { isAuthenticated } from "../../middlewares";
 
 const router = Router({ mergeParams: true });
 

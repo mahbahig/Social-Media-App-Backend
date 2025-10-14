@@ -1,7 +1,6 @@
 import { Router } from "express";
-import { isAuthenticated } from "../../middlewares/authentication";
 import PostController from "./post.controller";
-import { validation } from "../../middlewares";
+import { isAuthenticated, validation } from "../../middlewares";
 import { createPostSchema } from "./post.validation";
 import { commentRouter } from "../comment";
 
