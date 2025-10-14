@@ -1,7 +1,7 @@
 import { UpdateResult } from "mongoose";
 import { PostReaction } from "../../shared/enums";
 import { IPost } from "../../shared/interfaces";
-import { Post } from "../model";
+import { Post } from "../models";
 import { AbstractRepository } from "./abstract.repository";
 
 export class PostRepository extends AbstractRepository<IPost> {

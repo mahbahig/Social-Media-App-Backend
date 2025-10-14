@@ -2,7 +2,8 @@ import { HydratedDocument } from "mongoose";
 import { AbstractRepository } from "./abstract.repository";
 import { IUser } from "../../shared/interfaces/user/user.interface";
 import { InternalServerException } from "../../utils";
-import User from "../model/user/user.model";
+import { User } from "../models";
+
 
 export class UserRepository extends AbstractRepository<IUser> {
     constructor() {
