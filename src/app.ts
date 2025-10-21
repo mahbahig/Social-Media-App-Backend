@@ -1,5 +1,5 @@
 import express from "express";
-import { apiLimiter, errorHandler, notFound } from "./middlewares";
+import { apiLimiter, errorHandler, notFound, unifyResponse } from "./middlewares";
 import helmet from "helmet";
 import { authRouter, commentRouter, postRouter, userRouter } from "./modules";
 import { connectDB } from "./db";
@@ -15,6 +15,9 @@ const bootstrap = (): express.Application => {
 
     // Connect to Database
     connectDB();
+
+    // Unifying response middleware
+    app.use(unifyResponse)
 
     // Define routes for its corresponding router of each module
     app.use("/api/auth", authRouter);

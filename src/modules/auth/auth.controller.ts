@@ -9,7 +9,7 @@ class AuthController {
 
         const accessToken = await AuthService.register(registerDTO);
 
-        res.status(200).json({ success: true, message: "User registered successfully", accessToken });
+        res.status(200).json({ message: "User registered successfully", accessToken });
     };
 
     /********************************* Confirm Email *********************************/
@@ -18,7 +18,7 @@ class AuthController {
 
         await AuthService.confirmEmail(confirmEmailDTO);
 
-        res.status(200).json({ success: true, message: "Email confirmed successfully" });
+        res.status(200).json({ message: "Email confirmed successfully" });
     };
 
     /********************************* Login *********************************/
@@ -27,7 +27,7 @@ class AuthController {
 
         const accessToken = await AuthService.login(loginDTO);
 
-        res.status(200).json({ success: true, message: "User logged in successfully", accessToken });
+        res.status(200).json({ message: "User logged in successfully", accessToken });
     };
 }
 
