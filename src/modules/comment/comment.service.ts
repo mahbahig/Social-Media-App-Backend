@@ -23,7 +23,7 @@ class CommentService {
         let parentComment: IComment | null = null;
         if (commentId) {
             if (!Types.ObjectId.isValid(commentId)) throw new BadRequestException("Invalid comment id");
-            parentComment = await this._commentRepository.exists({ _id: commentId});
+            parentComment = await this._commentRepository.exists({ _id: commentId });
             if (!parentComment) throw new NotFoundException("Parent comment not found");
         }
 
@@ -33,6 +33,19 @@ class CommentService {
         // Send comment to repository to save it in DB
         const createdComment = await this._commentRepository.create(comment);
         return createdComment;
+    };
+    /********************************* Get Comment By Id *********************************/
+    getCommentById = async (id: string) => {
+        // Validate comment id
+        if (!Types.ObjectId.isValid(id)) throw new BadRequestException("Invalid comment id");
+
+        // Check if comment exists
+        const comment = await this._commentRepository.exists({ _id: id }, {}, {
+            populate:[{ path: "replies" }]
+        });
+        if (!comment) throw new NotFoundException("Comment not found");
+
+        return comment;
     };
 }
 

@@ -19,4 +19,10 @@ export const commentSchema = new Schema<IComment>({
     },
     reactions: [reactionSchema],
     attachments: [attachmentSchema]
-})
+}, { toJSON: { virtuals: true }, toObject: { virtuals: true }, timestamps: true });
+
+commentSchema.virtual("replies", {
+    ref: "Comment",
+    localField: "_id",
+    foreignField: "parentId"
+});
