@@ -1,9 +1,9 @@
-import { Types } from 'mongoose';
+import { ObjectId, Types } from 'mongoose';
 import { PostRepository, CommentRepository } from "../../db";
 import { IComment, IUser } from "../../shared/interfaces";
 import CommentFactory from "./comment.factory";
 import { CreateCommentDto } from "./dtos";
-import { BadRequestException, NotFoundException } from '../../utils';
+import { BadRequestException, ForbiddenException, NotFoundException } from '../../utils';
 
 class CommentService {
     private readonly _postRepository = new PostRepository();
@@ -40,12 +40,29 @@ class CommentService {
         if (!Types.ObjectId.isValid(id)) throw new BadRequestException("Invalid comment id");
 
         // Check if comment exists
-        const comment = await this._commentRepository.exists({ _id: id }, {}, {
-            populate:[{ path: "replies" }]
-        });
+        const comment = await this._commentRepository.exists(
+            { _id: id },
+            {},
+            { populate: [{ path: "replies" }] },
+        );
         if (!comment) throw new NotFoundException("Comment not found");
 
         return comment;
+    };
+    /********************************* Delete Comment *********************************/
+    deleteComment = async (id: string, userId: ObjectId) => {
+        // Validate comment id
+        if (!Types.ObjectId.isValid(id)) throw new BadRequestException("Invalid comment id");
+
+        // Check if comment exists
+        const comment = await this._commentRepository.exists({ _id: id });
+        if(!comment) throw new NotFoundException("Comment not found");
+        
+        // Check if user is authorized to delete the comment
+        if (comment.userId != userId) throw new ForbiddenException("You are not authorized to delete this comment");
+
+        // Delete comment from DB
+        await this._commentRepository.deleteById(new Types.ObjectId(id));
     };
 }
 

@@ -1,4 +1,4 @@
-import { HydratedDocument, Model, MongooseUpdateQueryOptions, ObjectId, ProjectionType, QueryOptions, RootFilterQuery, UpdateQuery, UpdateWriteOpResult } from "mongoose";
+import { HydratedDocument, Model, MongooseUpdateQueryOptions, Types, ProjectionType, QueryOptions, RootFilterQuery, UpdateQuery, UpdateWriteOpResult } from "mongoose";
 
 export abstract class AbstractRepository<T> {
     constructor(protected readonly model: Model<T>) {}
@@ -18,7 +18,13 @@ export abstract class AbstractRepository<T> {
     async updateOne (filter: RootFilterQuery<T>, update: UpdateQuery<T>, options?: MongooseUpdateQueryOptions): Promise<UpdateWriteOpResult | null> {
         return await this.model.updateOne(filter, update, options);
     }
-    async updateById (id: ObjectId, update: UpdateQuery<T>, options?: QueryOptions): Promise<UpdateWriteOpResult | null> {
+    async updateById (id: Types.ObjectId, update: UpdateQuery<T>, options?: QueryOptions): Promise<UpdateWriteOpResult | null> {
         return await this.model.findByIdAndUpdate(id, update, options);
+    }
+    async deleteOne (filter: RootFilterQuery<T>) {
+        return await this.model.deleteOne(filter);
+    }
+    async deleteById (id: Types.ObjectId) {
+        return await this.model.deleteOne({ _id: id });
     }
 }
