@@ -8,8 +8,8 @@ class PostController {
     /********************************* Create Post *********************************/
     createPost = async (req: Request, res: Response) => {
         const createPostDTO: CreatePostDTO = req.body;
-        const post: Partial<IPost> = await PostService.createPost(createPostDTO, req.user!);
-        return res.status(201).json(post);
+        const post = await PostService.createPost(createPostDTO, req.user!);
+        return res.status(201).json({ message: "Post created successfully", post });
     };
 
     /********************************* Get Post *********************************/
@@ -26,6 +26,13 @@ class PostController {
         const reaction: PostReaction = req.body.reaction;
         const status = await PostService.toggleReaction(postId, userId, reaction);
         return res.status(200).json({ message: `Reaction ${status} successfully` });
+    };
+
+    /********************************* Delete Post *********************************/
+    deletePost = async (req: Request, res: Response) => {
+        const id: string = req.params.postId!;
+        await PostService.deletePost(id, req.user!._id.toString());
+        return res.status(200).json({ message: "Post deleted successfully" });
     };
 }
 

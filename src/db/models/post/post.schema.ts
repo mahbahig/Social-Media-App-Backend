@@ -1,6 +1,7 @@
 import { Schema } from "mongoose";
 import { IPost } from "../../../shared/interfaces";
 import { attachmentSchema, reactionSchema } from "../common";
+import { Comment } from "../comment";
 
 export const postSchema = new Schema<IPost>({
     userId: {
@@ -27,4 +28,9 @@ postSchema.virtual("comments", {
     ref: "Comment",
     localField: "_id",
     foreignField: "postId"
+});
+
+postSchema.pre("deleteOne", async function (next) {
+    const filter = typeof this.getFilter == "function" ? this.getFilter() : {};
+    await Comment.deleteMany({ postId: filter._id });
 });

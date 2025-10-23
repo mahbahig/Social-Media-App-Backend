@@ -2,7 +2,7 @@ import { Types } from "mongoose";
 import { PostRepository } from '../../db';
 import { PostReaction } from '../../shared/enums';
 import { IPost, IUser } from '../../shared/interfaces';
-import { BadRequestException, InternalServerException, NotFoundException } from '../../utils';
+import { BadRequestException, InternalServerException, NotFoundException, UnauthorizedException } from '../../utils';
 import { CreatePostDTO } from "./post.dto";
 import PostFactory from './post.factory';
 
@@ -14,7 +14,6 @@ class PostService {
     createPost = async (createPostDTO: CreatePostDTO, user: IUser) => {
         const post = this._postFactory.createPost(createPostDTO, user);
         const createdPost: Partial<IPost> = await this._postRepository.create(post);
-        if (!createdPost) throw new InternalServerException("Failed to create post");
         return createdPost;
     };
 
@@ -22,11 +21,17 @@ class PostService {
     getPost = async (postId: string) => {
         if (!Types.ObjectId.isValid(postId)) throw new NotFoundException("Invalid post id");
 
-        const post: IPost | null = await this._postRepository.findById(postId, {}, { populate: [
-            { path: "userId", select: "username firstName lastName" },
-            { path: "reactions.userId", select: "username firstName lastName" },
-            { path: "comments", match: { parentsId: null } }
-        ]});
+        const post: IPost | null = await this._postRepository.findById(
+            postId,
+            {},
+            {
+                populate: [
+                    { path: "userId", select: "username firstName lastName" },
+                    { path: "reactions.userId", select: "username firstName lastName" },
+                    { path: "comments", match: { parentsId: null } },
+                ],
+            },
+        );
         if (!post) throw new NotFoundException("Post not found");
 
         return post;
@@ -61,6 +66,22 @@ class PostService {
                 return "updated";
             }
         }
+    };
+
+    /********************************* Delete Post *********************************/
+    deletePost = async (postId: string, userId: string) => {
+        // Validate post id
+        if (!Types.ObjectId.isValid(postId)) throw new BadRequestException("Invalid post id");
+
+        // Check if post exists
+        const post = await this._postRepository.exists({ _id: postId });
+        if (!post) throw new NotFoundException("Post not found");
+
+        // Check if the user is the owner of the post
+        if (post.userId.toString() !== userId.toString()) throw new UnauthorizedException("You are not authorized to delete this post");
+
+        // Delete the post
+        await this._postRepository.deleteById(new Types.ObjectId(postId));
     };
 }
 
