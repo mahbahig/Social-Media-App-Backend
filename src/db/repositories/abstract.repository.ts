@@ -12,7 +12,7 @@ export abstract class AbstractRepository<T> {
     async exists (filter: RootFilterQuery<T>, select?: ProjectionType<T>, options?: QueryOptions<T>): Promise<HydratedDocument<T> | null> {
         return await this.model.findOne(filter, select, options);
     }
-    async findById (id: string, projection: ProjectionType<T>, options: QueryOptions): Promise<HydratedDocument<T> | null> {
+    async findById (id: string, projection?: ProjectionType<T>, options?: QueryOptions): Promise<HydratedDocument<T> | null> {
         return await this.model.findById(id, projection, options);
     }
     async updateOne (filter: RootFilterQuery<T>, update: UpdateQuery<T>, options?: MongooseUpdateQueryOptions): Promise<UpdateWriteOpResult | null> {
