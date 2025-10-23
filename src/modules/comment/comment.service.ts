@@ -22,9 +22,13 @@ class CommentService {
         // Check if commentId is provided (reply to comment), if provided check if comment exists
         let parentComment: IComment | null = null;
         if (commentId) {
+            // Validate parent comment id
             if (!Types.ObjectId.isValid(commentId)) throw new BadRequestException("Invalid comment id");
+            // Check if parent comment exists
             parentComment = await this._commentRepository.exists({ _id: commentId });
             if (!parentComment) throw new NotFoundException("Parent comment not found");
+            // Ensure the parent comment belongs to the same post
+            if (parentComment.postId.toString() !== postId) throw new BadRequestException("Parent comment does not belong to the specified post");
         }
 
         // Send data to factory to create comment
@@ -59,7 +63,7 @@ class CommentService {
         if(!comment) throw new NotFoundException("Comment not found");
         
         // Check if user is authorized to delete the comment
-        if (comment.userId != userId) throw new ForbiddenException("You are not authorized to delete this comment");
+        if (comment.userId.toString() !== userId.toString()) throw new ForbiddenException("You are not authorized to delete this comment");
 
         // Delete comment from DB
         await this._commentRepository.deleteById(new Types.ObjectId(id));
