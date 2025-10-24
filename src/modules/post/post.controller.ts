@@ -28,7 +28,7 @@ class PostController {
         return res.status(200).json({ message: `Reaction ${status} successfully` });
     };
 
-    /********************************* Delete Post *********************************/
+    /********************************* Update Post *********************************/
     updatePost = async (req: Request, res: Response) => {
         const id: string = req.params.postId!;
         const content: string = req.body.content;

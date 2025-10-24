@@ -17,6 +17,13 @@ class CommentController {
         const comment = await CommentService.getCommentById(id);
         res.status(200).json({ message: "Comment fetched successfully", comment });
     };
+    /********************************* Update Comment *********************************/
+    updateComment = async (req: Request, res: Response) => {
+        const id: string = req.params.id!;
+        const content: string = req.body.content;
+        await CommentService.updateComment(id, req.user!._id, content);
+        res.status(200).json({ message: "Comment updated successfully" });
+    };
     /********************************* Delete Comment *********************************/
     deleteComment = async (req: Request, res: Response) => {
         const id: string = req.params.id!;

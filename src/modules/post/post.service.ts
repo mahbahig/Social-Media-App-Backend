@@ -80,10 +80,11 @@ class PostService {
         // Check if the user is the owner of the post
         if (post.userId.toString() !== userId.toString()) throw new UnauthorizedException("You are not authorized to delete this post");
 
+        // Check if content is provided and different
         if (!content) throw new BadRequestException("Content is required");
         if (post.content == content) throw new BadRequestException("Content is the same as before");
 
-        // Delete the post
+        // Update the post
         await this._postRepository.updateById(new Types.ObjectId(postId), { content });
     };
 

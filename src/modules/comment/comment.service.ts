@@ -1,9 +1,9 @@
-import { ObjectId, Types } from 'mongoose';
+import { ObjectId, Types } from "mongoose";
 import { PostRepository, CommentRepository } from "../../db";
 import { IComment, IUser } from "../../shared/interfaces";
 import CommentFactory from "./comment.factory";
 import { CreateCommentDto } from "./dtos";
-import { BadRequestException, ForbiddenException, NotFoundException } from '../../utils';
+import { BadRequestException, ForbiddenException, NotFoundException, UnauthorizedException } from "../../utils";
 
 class CommentService {
     private readonly _postRepository = new PostRepository();
@@ -44,14 +44,29 @@ class CommentService {
         if (!Types.ObjectId.isValid(id)) throw new BadRequestException("Invalid comment id");
 
         // Check if comment exists
-        const comment = await this._commentRepository.exists(
-            { _id: id },
-            {},
-            { populate: [{ path: "replies" }] },
-        );
+        const comment = await this._commentRepository.exists({ _id: id }, {}, { populate: [{ path: "replies" }] });
         if (!comment) throw new NotFoundException("Comment not found");
 
         return comment;
+    };
+    /********************************* Update Comment *********************************/
+    updateComment = async (id: string, userId: ObjectId, content: string) => {
+        // Validate comment id
+        if (!Types.ObjectId.isValid(id)) throw new BadRequestException("Invalid comment id");
+
+        // Check if comment exists
+        const comment = await this._commentRepository.exists({ _id: id });
+        if (!comment) throw new NotFoundException("Comment not found");
+
+        // Check if the user is the owner of the comment
+        if (comment.userId.toString() !== userId.toString()) throw new UnauthorizedException("You are not authorized to delete this comment");
+
+        // Check if content is provided and different
+        if (!content) throw new BadRequestException("Content is required");
+        if (comment.content == content) throw new BadRequestException("Content is the same as before");
+
+        // Update the comment
+        await this._commentRepository.updateById(new Types.ObjectId(id), { content });
     };
     /********************************* Delete Comment *********************************/
     deleteComment = async (id: string, userId: ObjectId) => {
@@ -60,10 +75,10 @@ class CommentService {
 
         // Check if comment exists
         const comment = await this._commentRepository.exists({ _id: id });
-        if(!comment) throw new NotFoundException("Comment not found");
-        
+        if (!comment) throw new NotFoundException("Comment not found");
+
         // Check if user is authorized to delete the comment
-        if (comment.userId.toString() !== userId.toString()) throw new ForbiddenException("You are not authorized to delete this comment");
+        if (comment.userId.toString() !== userId.toString()) throw new UnauthorizedException("You are not authorized to delete this comment");
 
         // Delete comment from DB
         await this._commentRepository.deleteById(new Types.ObjectId(id));
