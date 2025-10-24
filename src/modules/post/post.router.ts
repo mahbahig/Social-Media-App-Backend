@@ -11,6 +11,7 @@ router.use("/:postId/comment", commentRouter);
 router.post("/", validation(createPostSchema), isAuthenticated, PostController.createPost);
 router.patch("/reaction/:postId", isAuthenticated, PostController.toggleReaction);
 router.get("/:postId", PostController.getPost);
+router.put("/:postId", isAuthenticated, PostController.updatePost);
 router.delete("/:postId", isAuthenticated, PostController.deletePost);
 
 export default router;

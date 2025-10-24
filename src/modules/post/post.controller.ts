@@ -29,6 +29,14 @@ class PostController {
     };
 
     /********************************* Delete Post *********************************/
+    updatePost = async (req: Request, res: Response) => {
+        const id: string = req.params.postId!;
+        const content: string = req.body.content;
+        await PostService.updatePost(id, req.user!._id.toString(), content);
+        return res.status(200).json({ message: "Post updated successfully" });
+    };
+
+    /********************************* Delete Post *********************************/
     deletePost = async (req: Request, res: Response) => {
         const id: string = req.params.postId!;
         await PostService.deletePost(id, req.user!._id.toString());

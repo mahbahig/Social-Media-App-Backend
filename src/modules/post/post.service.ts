@@ -68,6 +68,25 @@ class PostService {
         }
     };
 
+    /********************************* Update Post *********************************/
+    updatePost = async (postId: string, userId: string, content: string) => {
+        // Validate post id
+        if (!Types.ObjectId.isValid(postId)) throw new BadRequestException("Invalid post id");
+
+        // Check if post exists
+        const post = await this._postRepository.exists({ _id: postId });
+        if (!post) throw new NotFoundException("Post not found");
+
+        // Check if the user is the owner of the post
+        if (post.userId.toString() !== userId.toString()) throw new UnauthorizedException("You are not authorized to delete this post");
+
+        if (!content) throw new BadRequestException("Content is required");
+        if (post.content == content) throw new BadRequestException("Content is the same as before");
+
+        // Delete the post
+        await this._postRepository.updateById(new Types.ObjectId(postId), { content });
+    };
+
     /********************************* Delete Post *********************************/
     deletePost = async (postId: string, userId: string) => {
         // Validate post id
