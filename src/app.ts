@@ -3,6 +3,7 @@ import { apiLimiter, errorHandler, notFound, unifyResponse } from "./middlewares
 import helmet from "helmet";
 import { authRouter, commentRouter, postRouter, userRouter } from "./modules";
 import { connectDB } from "./db";
+import cors from "cors";
 
 const bootstrap = (): express.Application => {
     const app: express.Application = express();
@@ -19,11 +20,14 @@ const bootstrap = (): express.Application => {
     // Unifying response middleware
     app.use(unifyResponse)
 
+    // Apply cors middleware
+    app.use(cors({ origin: "*" }));
+
     // Define routes for its corresponding router of each module
-    app.use("/api/auth", authRouter);
-    app.use("/api/user", userRouter);
-    app.use("/api/post", postRouter);
-    app.use("/api/comment", commentRouter);
+    app.use("/auth", authRouter);
+    app.use("/user", userRouter);
+    app.use("/post", postRouter);
+    app.use("/comment", commentRouter);
 
     // Handle 404 - Keep this as the last route
     app.use("{/*demo}", notFound);
