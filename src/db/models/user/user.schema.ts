@@ -1,4 +1,4 @@
-import { Schema } from 'mongoose';
+import { Schema } from "mongoose";
 import { UserProvider, UserGender, UserRole } from '../../../shared/enums';
 import { IUser } from '../../../shared/interfaces';
 
@@ -47,6 +47,14 @@ export const userSchema = new Schema<IUser>(
         },
         otp: String,
         otpExpiration: Date,
+        friends: [{
+            type: Schema.Types.ObjectId,
+            ref: 'User',
+        }],
+        friendRequests: [{
+            type: Schema.Types.ObjectId,
+            ref: 'User'
+        }]
     },
     {
         timestamps: true,

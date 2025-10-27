@@ -21,7 +21,7 @@ export const isAuthenticated = async (req: Request, res: Response, next: NextFun
     if (!decoded) throw new BadRequestException("Invalid authorization token");
 
     const _userRepository = new UserRepository();
-    const userExists = await _userRepository.exists({ _id: decoded.id });
+    const userExists = await _userRepository.exists({ _id: decoded.id }, {}, { populate: [{ path: "friends", select: "username firstName lastName" }] });
     if (!userExists) throw new NotFoundException("User not found");
 
     req.user = userExists;
