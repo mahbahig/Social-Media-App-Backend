@@ -1,5 +1,5 @@
 import z from "zod";
-import { UserGender } from "../../shared/enums";
+import { UserGender } from "../../shared";
 import { ConfirmEmailDTO, LoginDTO, RegisterDTO } from "./dtos";
 
 export const registerSchema = {

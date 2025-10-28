@@ -1,4 +1,4 @@
-import { UserGender, UserProvider, UserRole } from "../../shared/enums"
+import { UserGender, UserProvider, UserRole } from "../../shared"
 
 class UserEntity {
     public username!: string;

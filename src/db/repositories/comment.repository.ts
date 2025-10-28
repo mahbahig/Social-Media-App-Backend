@@ -1,4 +1,4 @@
-import { IComment } from "../../shared/interfaces";
+import { IComment } from "../../shared";
 import { Comment } from "../models";
 import { AbstractRepository } from "./abstract.repository";
 

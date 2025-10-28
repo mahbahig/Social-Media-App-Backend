@@ -1,5 +1,5 @@
 import { Schema } from "mongoose";
-import { IComment } from "../../../shared/interfaces";
+import { IComment } from "../../../shared";
 import { attachmentSchema, reactionSchema } from "../common";
 
 export const commentSchema = new Schema<IComment>({

@@ -1,8 +1,7 @@
 import { CreatePostDTO } from "./post.dto";
 import { Request, Response } from "express";
 import PostService from "./post.service";
-import { IPost } from "../../shared/interfaces";
-import { PostReaction } from "../../shared/enums";
+import { PostReaction, IPost } from "../../shared";
 
 class PostController {
     /********************************* Create Post *********************************/

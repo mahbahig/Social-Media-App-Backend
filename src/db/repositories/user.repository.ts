@@ -1,6 +1,6 @@
 import { HydratedDocument } from "mongoose";
 import { AbstractRepository } from "./abstract.repository";
-import { IUser } from "../../shared/interfaces/user/user.interface";
+import { IUser } from "../../shared";
 import { InternalServerException } from "../../utils";
 import { User } from "../models";
 

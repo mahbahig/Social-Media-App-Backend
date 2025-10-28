@@ -1,6 +1,5 @@
 import { Schema } from "mongoose";
-import { UserProvider, UserGender, UserRole } from '../../../shared/enums';
-import { IUser } from '../../../shared/interfaces';
+import { UserProvider, UserGender, UserRole, IUser } from "../../../shared";
 
 export const userSchema = new Schema<IUser>(
     {
@@ -51,9 +50,9 @@ export const userSchema = new Schema<IUser>(
             type: Schema.Types.ObjectId,
             ref: 'User',
         }],
-        friendRequests: [{
+        blocked: [{
             type: Schema.Types.ObjectId,
-            ref: 'User'
+            ref: 'User',
         }]
     },
     {

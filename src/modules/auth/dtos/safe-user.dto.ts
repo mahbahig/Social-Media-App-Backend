@@ -1,5 +1,5 @@
 import { ObjectId } from "mongoose";
-import { UserRole } from "../../../shared/enums";
+import { UserRole } from "../../../shared";
 
 export interface SafeUserDTO {
     id: ObjectId;

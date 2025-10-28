@@ -1,4 +1,4 @@
-import { IUser } from "../../shared/interfaces";
+import { IUser } from "../../shared";
 import { SafeUserDTO } from "./dtos";
 
 class AuthAdapter {

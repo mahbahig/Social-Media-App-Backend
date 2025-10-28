@@ -2,7 +2,7 @@ import { UserRepository } from "../../db";
 import { BadRequestException, compareHash, ConflictException, emailEventEmitter, hashValue, NotFoundException } from "../../utils";
 import { ConfirmEmailDTO, LoginDTO, RegisterDTO, SafeUserDTO } from "./dtos";
 import AuthFactory from "./auth.factory";
-import { IUser } from "../../shared/interfaces";
+import { IUser } from "../../shared";
 import AuthProvider from "./auth.provider";
 import AuthAdapter from "./auth.adapter";
 

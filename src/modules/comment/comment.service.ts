@@ -1,6 +1,6 @@
 import { ObjectId, Types } from "mongoose";
 import { PostRepository, CommentRepository } from "../../db";
-import { IComment, IUser } from "../../shared/interfaces";
+import { IComment, IUser } from "../../shared";
 import CommentFactory from "./comment.factory";
 import { CreateCommentDto } from "./dtos";
 import { BadRequestException, ForbiddenException, NotFoundException, UnauthorizedException } from "../../utils";

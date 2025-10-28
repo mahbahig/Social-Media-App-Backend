@@ -1,6 +1,5 @@
 import { UpdateResult } from "mongoose";
-import { PostReaction } from "../../shared/enums";
-import { IPost } from "../../shared/interfaces";
+import { IPost, PostReaction } from "../../shared";
 import { Post } from "../models";
 import { AbstractRepository } from "./abstract.repository";
 

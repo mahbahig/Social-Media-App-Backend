@@ -1,4 +1,4 @@
-import { UserProvider, UserRole } from '../../shared/enums';
+import { UserProvider, UserRole } from '../../shared';
 import { generateOtp, hashValue } from "../../utils";
 import { RegisterDTO } from './dtos';
 import UserEntity from './user.entity';

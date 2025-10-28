@@ -1,5 +1,5 @@
 import { Schema } from "mongoose";
-import { PostReaction } from "../../../shared/enums";
+import { PostReaction } from "../../../shared";
 
 export const reactionSchema = new Schema({
     userId: {

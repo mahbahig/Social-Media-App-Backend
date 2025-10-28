@@ -1,4 +1,4 @@
-import { IUser } from "../../shared/interfaces";
+import { IUser } from "../../shared";
 import { CreatePostDTO } from "./post.dto";
 import PostEntity from "./post.entity";
 

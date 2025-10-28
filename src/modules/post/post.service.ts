@@ -1,8 +1,7 @@
 import { Types } from "mongoose";
 import { PostRepository } from '../../db';
-import { PostReaction } from '../../shared/enums';
-import { IPost, IUser } from '../../shared/interfaces';
-import { BadRequestException, InternalServerException, NotFoundException, UnauthorizedException } from '../../utils';
+import { PostReaction, IPost, IUser } from "../../shared";
+import { BadRequestException, NotFoundException, UnauthorizedException } from '../../utils';
 import { CreatePostDTO } from "./post.dto";
 import PostFactory from './post.factory';
 

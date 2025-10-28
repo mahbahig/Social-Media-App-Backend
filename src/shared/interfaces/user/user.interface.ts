@@ -18,6 +18,6 @@ export interface IUser {
     updatedAt: Date;
     otp?: string;
     otpExpiration?: Date;
-    friends?: ObjectId[];
-    friendRequests?: ObjectId[];
+    friends: ObjectId[];
+    blocked: ObjectId[];
 }

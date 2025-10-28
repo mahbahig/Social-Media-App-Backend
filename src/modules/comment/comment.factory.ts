@@ -1,5 +1,5 @@
 import { ObjectId } from "mongoose";
-import { IComment, IUser } from "../../shared/interfaces";
+import { IComment, IUser } from "../../shared";
 import { CommentEntity } from "./comment.entity";
 import { CreateCommentDto } from "./dtos";
 

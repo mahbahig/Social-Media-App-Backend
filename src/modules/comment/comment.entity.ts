@@ -1,5 +1,5 @@
 import { ObjectId } from "mongoose";
-import { IAttachment, IReaction } from "../../shared/interfaces";
+import { IAttachment, IReaction } from "../../shared";
 
 export class CommentEntity {
     postId!: ObjectId;

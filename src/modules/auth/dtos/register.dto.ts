@@ -1,4 +1,4 @@
-import { UserGender } from "../../../shared/enums";
+import { UserGender } from "../../../shared";
 
 export interface RegisterDTO {
     username: string;

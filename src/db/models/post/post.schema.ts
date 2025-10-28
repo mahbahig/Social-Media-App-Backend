@@ -1,5 +1,5 @@
 import { Schema } from "mongoose";
-import { IPost } from "../../../shared/interfaces";
+import { IPost } from "../../../shared";
 import { attachmentSchema, reactionSchema } from "../common";
 import { Comment } from "../comment";
 
